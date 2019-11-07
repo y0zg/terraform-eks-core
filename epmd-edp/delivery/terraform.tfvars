@@ -1,71 +1,71 @@
 region = "eu-central-1"
 
-platform_name = "core-platform"
+platform_name = "eks-delivery"
 
-vpc_id = "vpc-0b1047b2711892e06"
+vpc_id = "vpc-0c94decb1fb748547"
 
 private_subnets_id = [
-  "subnet-0ddf4d8b11154e5ba",
-  "subnet-05f33489bd93e0576",
-  "subnet-02537d12c18e7f83f",
+  "subnet-0ab8d557add4492e4",
+  "subnet-061ce671b45bc41fb",
+  "subnet-03fc221161dd07725",
 ]
 
 public_subnets_id = [
-  "subnet-07ee719ffb554e759",
-  "subnet-0e2ec3ce3e54a1cc8",
-  "subnet-07b8b9f4472636428",
+  "subnet-0dbf44925da282b11",
+  "subnet-058e5ed174faace10",
+  "subnet-0a45827f21a4fd6f9",
 ]
 
 cluster_version = "1.14"
 
-cluster_security_group_id = "sg-0c0c7bd6715a23779"
+cluster_security_group_id = "sg-0d1408d2c0f70e415"
 
-worker_security_group_id = "sg-0c0c7bd6715a23779"
+worker_security_group_id = "sg-0d1408d2c0f70e415"
 
 infra_public_security_group_ids = [
-  "sg-0c0c7bd6715a23779"
+  "sg-0d1408d2c0f70e415"
 ]
 
-cluster_iam_role_name = "AWSServiceRoleEKSCluster_C1528134"
+cluster_iam_role_name = "AWSServiceRoleC1517100"
 
-worker_iam_instance_profile_name = "AWSServiceRoleEKSWorkerNode_C1528134"
+worker_iam_instance_profile_name = "AmazonEksWorkerNode"
 
-key_name = "synt-dots"
+key_name = "epmd-edp"
 
 map_users = [
   {
-    "userarn" : "arn:aws:iam::556969431317:user/ihor_kalyniak@epam.com",
-    "username" : "ihor_kalyniak@epam.com",
+    "userarn" : "arn:aws:iam::093899590031:user/alexander_morozov@epam.com",
+    "username" : "alexander_morozov@epam.com",
     "groups" : ["system:masters"]
   },
   {
-    "userarn" : "arn:aws:iam::556969431317:user/ivan_brovkin@epam.com",
-    "username" : "ivan_brovkin@epam.com",
+    "userarn" : "arn:aws:iam::093899590031:user/viktor_voronin@epam.com",
+    "username" : "viktor_voronin@epam.com",
     "groups" : ["system:masters"]
   },
   {
-    "userarn" : "arn:aws:iam::556969431317:user/maksim_titov2@epam.com",
-    "username" : "maksim_titov2@epam.com",
+    "userarn" : "arn:aws:iam::093899590031:user/iryna_mikhieieva@epam.com",
+    "username" : "iryna_mikhieieva@epam.com",
     "groups" : ["system:masters"]
   },
   {
-    "userarn" : "arn:aws:iam::556969431317:user/mykola_marusenko@epam.com",
-    "username" : "mykola_marusenko@epam.com",
+    "userarn" : "arn:aws:iam::093899590031:user/pavlo_yemelianov@epam.com",
+    "username" : "pavlo_yemelianov@epam.com",
     "groups" : ["system:masters"]
   },
   {
-    "userarn" : "arn:aws:iam::556969431317:user/olha_besedina@epam.com",
-    "username" : "olha_besedina@epam.com",
+    "userarn" : "arn:aws:iam::093899590031:user/stanislav_kostenko@epam.com",
+    "username" : "stanislav_kostenko@epam.com",
     "groups" : ["system:masters"]
   },
   {
-    "userarn" : "arn:aws:iam::556969431317:user/roman_kovtun@epam.com",
-    "username" : "roman_kovtun@epam.com",
+    "userarn" : "arn:aws:iam::093899590031:user/anton_tarianyk@epam.com",
+    "username" : "anton_tarianyk@epam.com",
     "groups" : ["system:masters"]
   },
   {
-    "userarn" : "arn:aws:iam::556969431317:user/sergiy_kulanov@epam.com",
-    "username" : "sergiy_kulanov@epam.com",
+    "userarn" : "arn:aws:iam::093899590031:user/serhii_shydlovskyi@epam.com",
+    "username" : "serhii_shydlovskyi@epam.com",
     "groups" : ["system:masters"]
   }
 ]
@@ -73,18 +73,26 @@ map_users = [
 certificate_arn = ""
 
 create_external_zone        = false
-platform_external_subdomain = "synt-dots.com"
+platform_external_subdomain = "aws.main.edp.projects.epam.com"
 
 tags = {
-  "SysName"      = "CORE-PLATFORM"
-  "SysOwner"     = "SYNT-DOTS"
-  "Environment"  = "DEV"
+  "SysName"      = "EPAM"
+  "SysOwner"     = "SpecialEPMD-EDPcoreteam@epam.com"
+  "Environment"  = "EKS-DELIVERY-CLUSTER"
   "CostCenter"   = "1111"
-  "BusinessUnit" = "RnD"
-  "Department"   = "Research Management and Operations"
+  "BusinessUnit" = "EDP"
+  "Department"   = "EPMD-EDP"
 }
 
 # bastion
-# operator_cidrs = ["178.150.132.209/32"]
 
-# public_subnet_id = "subnet-07ee719ffb554e759"
+operator_cidrs = []
+
+public_subnet_id = "subnet-0dbf44925da282b11"
+
+bastion_public_security_group_ids = [                      
+  "sg-053456cbb80288d78", //EPAM BY-RU
+  "sg-06991eda49323a359", //EPAM Europe
+  "sg-0d1408d2c0f70e415", //Default
+  "sg-0d5e8f43bb0e35330", //EPAM Global
+]

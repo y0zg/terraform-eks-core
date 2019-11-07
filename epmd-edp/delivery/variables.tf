@@ -94,12 +94,19 @@ variable "tags" {
 
 # bastion needs
 #
-# variable "public_subnet_id" {
-#   default = "Public subnet id in with to deploy bastion host"
-#   type    = string
-# }
+// Security groups to be attached to Bastion instance. Leave empty you'd like to create them during provisioning
+variable "bastion_public_security_group_ids"  {
+  description = "Security groups to be attached to Bastion instance. Leave empty you'd like to create them during provisioning"
+  type = list
+}
 #
-# variable "operator_cidrs" {
-#   description = "The CIDR blocks from which bastion host can be accessed"
-#   type        = list
-# }
+variable "operator_cidrs" {
+  description = "The CIDR blocks from which bastion host can be accessed"
+  type        = list
+}
+
+variable "public_subnet_id" {
+  description = ""
+  type = "string"
+}  
+  
