@@ -23,6 +23,11 @@ variable "public_subnets_id" {
   type        = list
 }
 
+variable "infrastructure_public_security_group_ids"  {
+  description = "Security groups to be attached to infrastructure LB."
+  type = list
+}
+
 variable "cluster_version" {
   description = "EKS cluster version"
   type        = string
@@ -144,3 +149,4 @@ variable "demand_nodes_count" {
   description = "On-demand nodes count in ASG" // Must be less or equal to desired_nodes_count
   default     = 3
 }
+

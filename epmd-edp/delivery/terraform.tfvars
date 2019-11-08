@@ -85,6 +85,15 @@ bastion_public_security_group_ids = [
   "sg-0d5e8f43bb0e35330", //EPAM Global
 ]
 
+infrastructure_public_security_group_ids = [                      
+  "sg-05d883695dad183e5",
+  "sg-053456cbb80288d78", //EPAM BY-RU
+  "sg-06991eda49323a359", //EPAM Europe
+  "sg-0d1408d2c0f70e415", //Default
+  "sg-0d5e8f43bb0e35330", //EPAM Global
+]
+
+
 // Variables for spot pool
 instance_types = ["r5.large"]
 max_nodes_count = 3
