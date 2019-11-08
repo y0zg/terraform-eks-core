@@ -1,25 +1,17 @@
 region = "eu-central-1"
 
 platform_name = "eks-delivery"
-
 vpc_id = "vpc-0c94decb1fb748547"
+platform_cidr = "10.72.0.0/16"
 
-private_subnets_id = [
-  "subnet-0ab8d557add4492e4",
-  "subnet-061ce671b45bc41fb",
-  "subnet-03fc221161dd07725",
-]
+private_subnets_id = []
+private_cidrs = ["10.72.0.0/22","10.72.4.0/22","10.72.8.0/22"]
 
-public_subnets_id = [
-  "subnet-0dbf44925da282b11",
-  "subnet-058e5ed174faace10",
-  "subnet-0a45827f21a4fd6f9",
-]
+public_subnets_id = []
+public_cidrs = ["10.72.12.0/22","10.72.16.0/22","10.72.20.0/22"]
 
 cluster_version = "1.14"
-
 cluster_security_group_id = "sg-0d1408d2c0f70e415"
-
 worker_security_group_id = "sg-0d1408d2c0f70e415"
 
 infra_public_security_group_ids = [
@@ -84,11 +76,7 @@ tags = {
   "Department"   = "EPMD-EDP"
 }
 
-# bastion
-
 operator_cidrs = []
-
-public_subnet_id = "subnet-0dbf44925da282b11"
 
 bastion_public_security_group_ids = [                      
   "sg-053456cbb80288d78", //EPAM BY-RU
@@ -96,3 +84,10 @@ bastion_public_security_group_ids = [
   "sg-0d1408d2c0f70e415", //Default
   "sg-0d5e8f43bb0e35330", //EPAM Global
 ]
+
+// Variables for spot pool
+instance_types = ["r5.large"]
+max_nodes_count = 3
+desired_nodes_count = 3
+demand_nodes_count = 3
+

@@ -1,19 +1,34 @@
-# module "bastion" {
-#   source = "git::ssh://git@git.epam.com/synt-dots/terraform-aws-modules/terraform-aws-bastion.git?ref=v0.0.2"
-#
-#   vpc_id           = var.vpc_id
-#   key_name         = var.key_name
-#   platform_name    = var.platform_name
-#   public_subnet_id = var.public_subnet
-#   operator_cidrs   = var.operator_cidrs
-#   tags             = var.tags
-# }
+ module "bastion" {
+   source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-bastion?ref=0.0.1"
+
+   vpc_id           = var.vpc_id
+   key_name         = var.key_name
+   platform_name    = var.platform_name
+   public_subnet_id = module.vpc.public_subnet_ids[0]
+   operator_cidrs   = var.operator_cidrs
+   tags             = var.tags
+   security_group_ids = var.bastion_public_security_group_ids
+ }
+
+module "vpc" {
+  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-vpc?ref=0.0.1"
+
+  platform_name = "${lower(var.platform_name)}"
+
+  vpc_id             = "${var.vpc_id}"
+  platform_cidr      = "${var.platform_cidr}"
+  private_cidrs      = "${var.private_cidrs}"
+  public_cidrs       = "${var.public_cidrs}"
+  public_subnet_ids  = "${var.public_subnets_id}"
+  private_subnet_ids = "${var.private_subnets_id}"
+  tags               = "${var.tags}"
+}
 
 module "eks" {
-  source          = "git::ssh://git@git.epam.com/synt-dots/terraform-aws-modules/terraform-aws-eks?ref=v6.0.0"
+  source          = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks?ref=0.0.1"
   cluster_name    = var.platform_name
   vpc_id          = var.vpc_id
-  subnets         = var.private_subnets_id
+  subnets         = module.vpc.private_subnet_ids
   cluster_version = var.cluster_version
 
   manage_cluster_iam_resources = false
@@ -31,13 +46,15 @@ module "eks" {
 
   worker_groups_launch_template = [
     {
-      name                    = "spot-1"
-      override_instance_types = ["t3.medium", "t2.medium"]
+      name                    = "${var.platform_name}-spot"
+      override_instance_types = var.instance_types
       spot_instance_pools     = 1
-      asg_max_size            = 1
-      asg_max_size            = 2
-      asg_desired_capacity    = 2
+      asg_min_size            = 1
+      asg_max_size            = var.max_nodes_count
+      asg_desired_capacity    = var.desired_nodes_count
+      on_demand_base_capacity = var.demand_nodes_count
       kubelet_extra_args      = "--node-labels=kubernetes.io/lifecycle=spot"
+      suspended_processes     = ["AZRebalance", "ReplaceUnhealthy", "Terminate"]
       public_ip               = false
       target_group_arns       = var.create_external_zone || var.platform_external_subdomain != "" ? [aws_lb_target_group.infra_http.0.arn, aws_lb_target_group.infra_https.0.arn] : []
 
@@ -55,7 +72,7 @@ module "eks" {
 }
 
 module "dns" {
-  source = "git::ssh://git@git.epam.com/synt-dots/terraform-aws-modules/terraform-aws-dns?ref=v0.0.1"
+  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-dns?ref=0.0.1"
 
   platform_name   = lower(var.platform_name)
   platform_vpc_id = var.vpc_id

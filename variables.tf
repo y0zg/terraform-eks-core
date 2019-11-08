@@ -94,12 +94,53 @@ variable "tags" {
 
 # bastion needs
 #
-# variable "public_subnet_id" {
-#   default = "Public subnet id in with to deploy bastion host"
-#   type    = string
-# }
-#
-# variable "operator_cidrs" {
-#   description = "The CIDR blocks from which bastion host can be accessed"
-#   type        = list
-# }
+// Security groups to be attached to Bastion instance. Leave empty you'd like to create them during provisioning
+variable "bastion_public_security_group_ids"  {
+  description = "Security groups to be attached to Bastion instance. Leave empty you'd like to create them during provisioning"
+  type = list
+}
+
+// CIDR blocks to be added to bastion security group if created
+variable "operator_cidrs" {
+  description = "The CIDR blocks from which bastion host can be accessed"
+  type        = list
+}
+
+variable "platform_cidr" {
+  description = "CIRD of your future or existing VPC"
+  type        = "string"
+}
+
+variable "private_cidrs" {
+  description = "CIRD of your future or existing VPC"
+  type        = "list"
+  default     = []
+}
+
+variable "public_cidrs" {
+  description = "CIRD of your future or existing VPC"
+  type        = "list"
+  default     = []
+}
+
+// Variables for spot pool
+variable "instance_types" {
+  description = "AWS instance type to build nodes"
+  type        = "list"
+  default     = ["r5.large"]
+}  
+
+variable "max_nodes_count" {
+  description = "Maximum nodes count in ASG"
+  default     = 3
+}
+
+variable "desired_nodes_count" {
+  description = "Desired nodes count in ASG"
+  default     = 3
+}
+
+variable "demand_nodes_count" {
+  description = "On-demand nodes count in ASG" // Must be less or equal to desired_nodes_count
+  default     = 3
+}

@@ -2,7 +2,7 @@ resource "aws_lb" "infra" {
   count                            = var.create_external_zone || var.platform_external_subdomain != "" ? 1 : 0
   name                             = format("%s-infra-alb", var.platform_name)
   internal                         = false
-  subnets                          = var.public_subnets_id
+  subnets                          = module.vpc.public_subnet_ids
   load_balancer_type               = "application"
   enable_cross_zone_load_balancing = true
 
