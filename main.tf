@@ -1,14 +1,14 @@
- module "bastion" {
-   source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-bastion?ref=0.0.1"
+module "bastion" {
+  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-bastion?ref=0.0.1"
 
-   vpc_id           = var.vpc_id
-   key_name         = var.key_name
-   platform_name    = var.platform_name
-   public_subnet_id = module.vpc.public_subnet_ids[0]
-   operator_cidrs   = var.operator_cidrs
-   tags             = var.tags
-   security_group_ids = var.bastion_public_security_group_ids
- }
+  vpc_id             = var.vpc_id
+  key_name           = var.key_name
+  platform_name      = var.platform_name
+  public_subnet_id   = module.vpc.public_subnet_ids[0]
+  operator_cidrs     = var.operator_cidrs
+  tags               = var.tags
+  security_group_ids = var.bastion_public_security_group_ids
+}
 
 module "vpc" {
   source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-vpc?ref=0.0.1"
@@ -24,8 +24,9 @@ module "vpc" {
   tags               = "${var.tags}"
 }
 
+
 module "eks" {
-  source          = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks?ref=0.0.1"
+  source          = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks?ref=0.0.2"
   cluster_name    = var.platform_name
   vpc_id          = var.vpc_id
   subnets         = module.vpc.private_subnet_ids
@@ -57,9 +58,9 @@ module "eks" {
       suspended_processes     = ["AZRebalance", "ReplaceUnhealthy", "Terminate"]
       public_ip               = false
       target_group_arns       = var.create_external_zone || var.platform_external_subdomain != "" ? [aws_lb_target_group.infra_http.0.arn, aws_lb_target_group.infra_https.0.arn] : []
-
-      root_volume_size  = 50
-      enable_monitoring = false
+      load_balancers          = [aws_elb.infra[0].name]
+      root_volume_size        = 50
+      enable_monitoring       = false
 
       iam_instance_profile_name = var.worker_iam_instance_profile_name
       key_name                  = var.key_name

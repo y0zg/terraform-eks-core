@@ -23,9 +23,9 @@ variable "public_subnets_id" {
   type        = list
 }
 
-variable "infrastructure_public_security_group_ids"  {
+variable "infrastructure_public_security_group_ids" {
   description = "Security groups to be attached to infrastructure LB."
-  type = list
+  type        = list
 }
 
 variable "cluster_version" {
@@ -100,9 +100,9 @@ variable "tags" {
 # bastion needs
 #
 // Security groups to be attached to Bastion instance. Leave empty you'd like to create them during provisioning
-variable "bastion_public_security_group_ids"  {
+variable "bastion_public_security_group_ids" {
   description = "Security groups to be attached to Bastion instance. Leave empty you'd like to create them during provisioning"
-  type = list
+  type        = list
 }
 
 // CIDR blocks to be added to bastion security group if created
@@ -133,7 +133,7 @@ variable "instance_types" {
   description = "AWS instance type to build nodes"
   type        = "list"
   default     = ["r5.large"]
-}  
+}
 
 variable "max_nodes_count" {
   description = "Maximum nodes count in ASG"
@@ -150,3 +150,7 @@ variable "demand_nodes_count" {
   default     = 3
 }
 
+variable infra_lb_listeners {
+  type        = "list"
+  description = "List of maps for using as listners for Classic LB"
+}

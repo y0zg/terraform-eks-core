@@ -34,3 +34,4 @@ tags = {
 # bastion
 # operator_cidrs = []
 # public_subnet_id = ""
+infra_lb_listeners = []

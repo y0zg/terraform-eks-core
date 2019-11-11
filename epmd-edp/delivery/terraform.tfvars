@@ -1,18 +1,18 @@
 region = "eu-central-1"
 
 platform_name = "eks-delivery"
-vpc_id = "vpc-0c94decb1fb748547"
+vpc_id        = "vpc-0c94decb1fb748547"
 platform_cidr = "10.72.0.0/16"
 
 private_subnets_id = []
-private_cidrs = ["10.72.0.0/22","10.72.4.0/22","10.72.8.0/22"]
+private_cidrs      = ["10.72.0.0/22", "10.72.4.0/22", "10.72.8.0/22"]
 
 public_subnets_id = []
-public_cidrs = ["10.72.12.0/22","10.72.16.0/22","10.72.20.0/22"]
+public_cidrs      = ["10.72.12.0/22", "10.72.16.0/22", "10.72.20.0/22"]
 
-cluster_version = "1.14"
+cluster_version           = "1.14"
 cluster_security_group_id = "sg-0d1408d2c0f70e415"
-worker_security_group_id = "sg-0d1408d2c0f70e415"
+worker_security_group_id  = "sg-0d1408d2c0f70e415"
 
 infra_public_security_group_ids = [
   "sg-0d1408d2c0f70e415"
@@ -78,14 +78,14 @@ tags = {
 
 operator_cidrs = []
 
-bastion_public_security_group_ids = [                      
+bastion_public_security_group_ids = [
   "sg-053456cbb80288d78", //EPAM BY-RU
   "sg-06991eda49323a359", //EPAM Europe
   "sg-0d1408d2c0f70e415", //Default
   "sg-0d5e8f43bb0e35330", //EPAM Global
 ]
 
-infrastructure_public_security_group_ids = [                      
+infrastructure_public_security_group_ids = [
   "sg-05d883695dad183e5",
   "sg-053456cbb80288d78", //EPAM BY-RU
   "sg-06991eda49323a359", //EPAM Europe
@@ -95,8 +95,22 @@ infrastructure_public_security_group_ids = [
 
 
 // Variables for spot pool
-instance_types = ["r5.large"]
-max_nodes_count = 3
+instance_types      = ["r5.large"]
+max_nodes_count     = 3
 desired_nodes_count = 3
-demand_nodes_count = 3
+demand_nodes_count  = 3
 
+infra_lb_listeners = [ // List of maps for using as listners foc Classic LB, Gerrit for example. Can't be empty
+  {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  },
+  {
+    instance_port     = "30000"
+    instance_protocol = "TCP"
+    lb_port           = "30000"
+    lb_protocol       = "TCP"
+  }
+]
