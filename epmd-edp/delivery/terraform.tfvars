@@ -59,6 +59,11 @@ map_users = [
     "userarn" : "arn:aws:iam::093899590031:user/serhii_shydlovskyi@epam.com",
     "username" : "serhii_shydlovskyi@epam.com",
     "groups" : ["system:masters"]
+  },
+  {
+    "userarn" : "arn:aws:iam::093899590031:user/roman_kovtun@epam.com",
+    "username" : "roman_kovtun@epam.com",
+    "groups" : ["system:masters"]
   }
 ]
 

@@ -5,6 +5,7 @@ resource "aws_lb" "infra" {
   subnets                          = module.vpc.public_subnet_ids
   load_balancer_type               = "application"
   enable_cross_zone_load_balancing = true
+  enable_http2                     = false
 
   security_groups = var.infra_public_security_group_ids
 
