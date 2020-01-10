@@ -1,5 +1,5 @@
 module "bastion" {
-  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-bastion?ref=0.0.1"
+  source = "git::https://github.com/epmd-edp/terraform-eks-bastion?ref=0.0.1"
 
   vpc_id             = var.vpc_id
   key_name           = var.key_name
@@ -11,7 +11,7 @@ module "bastion" {
 }
 
 module "vpc" {
-  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-vpc?ref=0.0.1"
+  source = "git::https://github.com/epmd-edp/terraform-eks-vpc?ref=0.0.1"
 
   platform_name = "${lower(var.platform_name)}"
 
@@ -26,7 +26,7 @@ module "vpc" {
 
 
 module "eks" {
-  source          = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks?ref=0.0.2"
+  source          = "git::https://github.com/epmd-edp/terraform-eks?ref=0.0.2"
   cluster_name    = var.platform_name
   vpc_id          = var.vpc_id
   subnets         = module.vpc.private_subnet_ids
@@ -73,7 +73,7 @@ module "eks" {
 }
 
 module "dns" {
-  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-dns?ref=0.0.1"
+  source = "git::https://github.com/epmd-edp/terraform-eks-dns?ref=0.0.1"
 
   platform_name   = lower(var.platform_name)
   platform_vpc_id = var.vpc_id

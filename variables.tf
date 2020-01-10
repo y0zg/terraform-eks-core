@@ -24,7 +24,7 @@ variable "public_subnets_id" {
 }
 
 variable "infrastructure_public_security_group_ids" {
-  description = "Security groups to be attached to infrastructure LB."
+  description = "Security groups to be attached to infrastructure LB and external ALB."
   type        = list
 }
 
@@ -42,11 +42,6 @@ variable "cluster_security_group_id" {
 variable "worker_security_group_id" {
   description = "A security group ID to run EKS cluster and workers"
   type        = string
-}
-
-variable "infra_public_security_group_ids" {
-  description = "Security group IDs should be attached to external ALB"
-  type        = list
 }
 
 variable "cluster_iam_role_name" {

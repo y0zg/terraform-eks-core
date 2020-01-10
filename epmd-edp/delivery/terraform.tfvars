@@ -14,10 +14,6 @@ cluster_version           = "1.14"
 cluster_security_group_id = "sg-0d1408d2c0f70e415"
 worker_security_group_id  = "sg-0d1408d2c0f70e415"
 
-infra_public_security_group_ids = [
-  "sg-0d1408d2c0f70e415"
-]
-
 cluster_iam_role_name = "AWSServiceRoleC1517100"
 
 worker_iam_instance_profile_name = "AmazonEksWorkerNode"
@@ -98,12 +94,11 @@ infrastructure_public_security_group_ids = [
   "sg-0d5e8f43bb0e35330", //EPAM Global
 ]
 
-
 // Variables for spot pool
 instance_types      = ["r5.large"]
-max_nodes_count     = 3
-desired_nodes_count = 3
-demand_nodes_count  = 3
+max_nodes_count     = 6
+desired_nodes_count = 6
+demand_nodes_count  = 6
 
 infra_lb_listeners = [ // List of maps for using as listners foc Classic LB, Gerrit for example. Can't be empty
   {

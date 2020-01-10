@@ -7,7 +7,7 @@ resource "aws_lb" "infra" {
   enable_cross_zone_load_balancing = true
   enable_http2                     = false
 
-  security_groups = var.infra_public_security_group_ids
+  security_groups = var.infrastructure_public_security_group_ids
 
   tags = merge(var.tags, map("Name", format("%s-infra", var.platform_name)), map("Application", "any"), map("Role", "infra"))
 }
