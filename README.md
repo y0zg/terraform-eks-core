@@ -1,68 +1,36 @@
-terraform-aws-core
-------------------
+# terraform-aws-core
 
-Install EKS and all required resources
+The terraform-aws-eks component installs EKS and all required resources.
 
-Each environment can be customize using different infrastructure building blocks with different versions.
-We have 3 basic building blocks:
+Each environment can be customized using different infrastructure building blocks with different versions.
+Currently, we have two basic building blocks: **Bastion** and **EKS**.
 
-- bastion
-- eks
+## Repository Structure
 
-Repo structure
---------------
-
+Become familiar with the main structure of the repository:
 ```bash
 ./
+├── certificates.tf
+├── infra_alb.tf
+├── infra_elb.tf
 ├── terraform.tfvars
 ├── main.tf
+├── output.tf
 ├── README.md
 ├── terraform_config.tf
 ├── terraform_providers.tf
 └── variables.tf
 ```
 
-- `variables.tf` - contains all variables that should be defined inside environment. It is common practice not to define them with default values but explicitly require for user definition;
-- `terraform_providers.tf` - file with terraform providers and and their pinning versions. Ensures that we can control terraform provider versions and all developers are on the same version when apply changes to infrastructure;
-- `terraform_config.tf` - defines remote state working procedure, where to store remote state and lock flag. Ensures that the onle one developer at any time can manipulate with infrastructure from any endpoint;
-- `README.md` - contains some specific documentation on env
-- `main.tf` - defines which terraform modules to use and what parameters to pass.
+- `certificates.tf` - implements SSL/TLS certificates for the load balancers creation;
+- `infra_alb.tf` - implements HTTP/HTTPS application load balancer pointing to all nodes creation;
+- `infra_elb.tf` - implements classic load balancer pointing to all nodes creation;
+- `variables.tf` - contains all variables that should be defined inside environment. It is a common practice not to define them with the default values, but it is explicitly required for user definition;
+- `terraform_providers.tf` - file with terraform providers and their pinning versions. This file allows to control terraform provider versions and track that all developers are on the same version when applying infrastructure changes;
+- `terraform_config.tf` - defines the remote state working procedure, the location where to store the remote state and lock flag. This file ensures that only one developer can manipulate with infrastructure from any endpoint at any time;
+- `README.md` - contains some specific documentation;
+- `main.tf` - defines which terraform modules to use and what parameters to pass;
+- `output.tf` - implements the module output.
+---
 
-Update `terraform_config.tf` file with proper backend key value which should be unique
-to store your terraform state for current deployment, see e.g. bellow:
-
-```bash
-key = "terraform-aws-core/eu-central-1/terraform/terraform.tfstate"
-```
-
-Modify `terraform_config.tf` according to your environment values
-
-```bash
-  backend "s3" {
-    bucket         = "terraform-states-<AWS_ACCOUNT_ID>"
-    key            = "terraform-aws-core/eu-central-1/terraform/terraform.tfstate"
-    region         = "eu-central-1"
-    acl            = "bucket-owner-full-control"
-    dynamodb_table = "terraform-locks"
-    encrypt        = true
-  }
-```
-
-How to run terraform
---------------------
-
-Ensure you have [aws-aim-authenticator](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html) is installed before running terraform
-
-In general working with terraform has several steps:
-
-1. `terraform init` - to initialize remote state and download modules
-2. `terraform plan` - to check what changes are going to be made, dry-run
-2. `terraform apply -auto-approve=false` - run terraform plan and if everything is ok then apply changes
-
-Example:
-
-```bash
-# AWS_PROFILE - provide profile which is configured for deploying EKS, e.g.terraform-auto-user
-$ AWS_REGION=eu-central-1 AWS_PROFILE=terraform-auto-user terraform init
-$ AWS_REGION=eu-central-1 AWS_PROFILE=terraform-auto-user terraform apply -auto-approve=false
-```
+_**NOTE**: Get acquainted with the step-by-step instruction on prerequisites and corresponding installation flow by navigating to the [EKS Installation](documentation/install_eks.md) page._
