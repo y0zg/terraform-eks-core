@@ -35,6 +35,7 @@ Update the `terraform_config.tf` file with a proper backend key value, which sho
 In order to use the module, create manually the following objects in AWS:
 
 * VPC in selected region. It is recommended to create VPC with /16 CIDR;
+* Security groups in a created VPC to define an external access to the cluster;
 * IAM role for EKS cluster according to the requirements - https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html;
 * IAM role for the worker nodes according to the requirements - https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html;
 * SSH key pair that will be used for SSH access to the worker nodes.
@@ -127,7 +128,7 @@ tags = {
 }
 ```
 
-The infrastructure_public_security_group_ids variable contains security groups IDs that will be added to ALB and ELB: 
+The infrastructure_public_security_group_ids variable contains the previously created security groups IDs that will be added to ALB and ELB: 
 ```bash
 infrastructure_public_security_group_ids = [
   "sg-1",
@@ -195,4 +196,17 @@ _**NOTE**: The EKS deployment process can take about 15 minutes._
 
 What's Next?
 --------------------
-It is recommended to install [ingress controller](https://kubernetes.github.io/ingress-nginx/deploy/) and [dashboard](https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html) to your EKS.
+#### Install Ingress Controller
+
+In order to use the created Terraform ALB and ELB resources, perform the following:
+
+1. Install the [Nginx ingress controller](https://kubernetes.github.io/ingress-nginx/deploy/) for Bare-metal;
+2. Execute the following command to change the HTTP Node port for **32080** and the HTTPS Node port for **8443**:
+
+```bash
+kubectl patch svc ingress-nginx -n ingress-nginx --type merge -p '{"spec":{"ports":[{"name":"http","port":80,"nodePort":32080},{"name":"https","port":443,"nodePort":32443}]}}'
+```
+
+#### Install Kubernetes Dashboard
+
+It is highly recommended to install Kubernetes dashboard in your EKS cluster. For details, please refer to the [AWS documentation](https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html). 
