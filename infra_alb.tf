@@ -45,7 +45,12 @@ resource "aws_lb_target_group" "infra_http" {
   protocol             = "HTTP"
   deregistration_delay = 20
   vpc_id               = var.vpc_id
-  tags                 = merge(var.tags, map("Name", format("%s-infra", var.platform_name)))
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = 3600
+    enabled         = true
+  }
+  tags = merge(var.tags, map("Name", format("%s-infra", var.platform_name)))
 }
 
 resource "aws_lb_target_group" "infra_https" {
@@ -55,5 +60,10 @@ resource "aws_lb_target_group" "infra_https" {
   protocol             = "HTTPS"
   deregistration_delay = 20
   vpc_id               = var.vpc_id
-  tags                 = merge(var.tags, map("Name", format("%s-infra", var.platform_name)))
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = 3600
+    enabled         = true
+  }
+  tags = merge(var.tags, map("Name", format("%s-infra", var.platform_name)))
 }
