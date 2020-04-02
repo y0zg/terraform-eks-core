@@ -75,6 +75,7 @@ tags = {
   "CostCenter"   = "1111"
   "BusinessUnit" = "EDP"
   "Department"   = "EPMD-EDP"
+  "user:tag"     = "EDP-delivery-eks"
 }
 
 operator_cidrs = []

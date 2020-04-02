@@ -1,16 +1,16 @@
-region = ""
+region        = ""
 platform_name = ""
-vpc_id = ""
+vpc_id        = ""
 
 private_subnets_id = []
-public_subnets_id = []
+public_subnets_id  = []
 
-cluster_version = "1.14"
-cluster_security_group_id = ""
-worker_security_group_id = ""
+cluster_version                 = "1.14"
+cluster_security_group_id       = ""
+worker_security_group_id        = ""
 infra_public_security_group_ids = []
 
-cluster_iam_role_name = ""
+cluster_iam_role_name            = ""
 worker_iam_instance_profile_name = ""
 
 key_name = ""
