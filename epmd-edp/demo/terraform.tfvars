@@ -10,7 +10,7 @@ private_cidrs      = ["172.32.0.0/22", "172.32.4.0/22", "172.32.8.0/22"]
 public_subnets_id = []
 public_cidrs      = ["172.32.12.0/22", "172.32.16.0/22", "172.32.20.0/22"]
 
-cluster_version           = "1.14"
+cluster_version           = "1.16"
 cluster_security_group_id = "sg-0fa1cd0e1467b5341"
 worker_security_group_id  = "sg-0fa1cd0e1467b5341"
 
@@ -59,6 +59,11 @@ map_users = [
     "userarn" : "arn:aws:iam::093899590031:user/serhii_shydlovskyi@epam.com",
     "username" : "serhii_shydlovskyi@epam.com",
     "groups" : ["system:masters"]
+  },
+  {
+    "userarn" : "arn:aws:iam::093899590031:user/mykola_marusenko@epam.com",
+    "username" : "mykola_marusenko@epam.com",
+    "groups" : ["system:masters"]
   }
 ]
 certificate_arn = ""
@@ -73,25 +78,23 @@ tags = {
   "CostCenter"   = "1111"
   "BusinessUnit" = "EDP"
   "Department"   = "EPMD-EDP"
-  "user:tag"     = "EDP-demo-eks"
 }
 
 operator_cidrs = []
 
 bastion_public_security_group_ids = [
-  "sg-0e2db7d9ed6be620d", //EPAM BY-RU
-  "sg-013a833330996f967", //EPAM Europe
+  "sg-07baee5a836e5366d", // EPAM BY-RU
+  "sg-06b38fe3f2a08765e", //EPAM Europe
   "sg-0fa1cd0e1467b5341", //Default
-  "sg-06f5cdefc3d2df31e", //EPAM Global
+  "sg-0defbf3686d309a65", //EPAM Global
 ]
 
 infrastructure_public_security_group_ids = [
-  //"sg-05d883695dad183e5",
   "sg-09f616ddece6e119d",
-  "sg-0e2db7d9ed6be620d", //EPAM BY-RU
-  "sg-013a833330996f967", //EPAM Europe
+  "sg-07baee5a836e5366d", // EPAM BY-RU
+  "sg-06b38fe3f2a08765e", //EPAM Europe
   "sg-0fa1cd0e1467b5341", //Default
-  "sg-06f5cdefc3d2df31e", //EPAM Global
+  "sg-0defbf3686d309a65", //EPAM Global
 ]
 
 

@@ -1,5 +1,5 @@
 module "bastion" {
-  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-bastion?ref=0.0.1"
+  source = "git::https://gerrit-oc-green-edp-cicd.delivery.aws.main.edp.projects.epam.com/terraform-eks-bastion?ref=0.0.1"
 
   vpc_id             = var.vpc_id
   key_name           = var.key_name
@@ -11,7 +11,7 @@ module "bastion" {
 }
 
 module "vpc" {
-  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-vpc?ref=0.0.1"
+  source = "git::https://gerrit-oc-green-edp-cicd.delivery.aws.main.edp.projects.epam.com/terraform-eks-vpc?ref=0.0.1"
 
   platform_name = "${lower(var.platform_name)}"
 
@@ -26,7 +26,7 @@ module "vpc" {
 
 
 module "eks" {
-  source          = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks?ref=0.0.2"
+  source          = "git::https://gerrit-oc-green-edp-cicd.delivery.aws.main.edp.projects.epam.com/terraform-eks?ref=0.0.2"
   cluster_name    = var.platform_name
   vpc_id          = var.vpc_id
   subnets         = module.vpc.private_subnet_ids
@@ -54,7 +54,7 @@ module "eks" {
       asg_max_size            = var.max_nodes_count
       asg_desired_capacity    = var.desired_nodes_count
       on_demand_base_capacity = var.demand_nodes_count
-      kubelet_extra_args      = "--node-labels=kubernetes.io/lifecycle=spot"
+      kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
       suspended_processes     = ["AZRebalance", "ReplaceUnhealthy", "Terminate"]
       public_ip               = false
       target_group_arns       = var.create_external_zone || var.platform_external_subdomain != "" ? [aws_lb_target_group.infra_http.0.arn, aws_lb_target_group.infra_https.0.arn] : []
@@ -73,7 +73,7 @@ module "eks" {
 }
 
 module "dns" {
-  source = "git::https://gerrit-edp-cicd-delivery.delivery.aws.main.edp.projects.epam.com/terraform-eks-dns?ref=0.0.1"
+  source = "git::https://gerrit-oc-green-edp-cicd.delivery.aws.main.edp.projects.epam.com/terraform-eks-dns?ref=0.0.1"
 
   platform_name   = lower(var.platform_name)
   platform_vpc_id = var.vpc_id
