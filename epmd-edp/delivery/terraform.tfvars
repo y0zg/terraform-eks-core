@@ -81,18 +81,19 @@ tags = {
 operator_cidrs = []
 
 bastion_public_security_group_ids = [
-  "sg-053456cbb80288d78", //EPAM BY-RU
-  "sg-06991eda49323a359", //EPAM Europe
+  "sg-0bb1be22258f16b65", //EPAM BY-RU
+  "sg-08c4c55b80217ba5f", //EPAM Europe
   "sg-0d1408d2c0f70e415", //Default
-  "sg-0d5e8f43bb0e35330", //EPAM Global
+  "sg-07d0672c82d1e4f4f", //EPAM Global
 ]
 
 infrastructure_public_security_group_ids = [
+  "sg-0a838767f5d269f27",
   "sg-05d883695dad183e5",
-  "sg-053456cbb80288d78", //EPAM BY-RU
-  "sg-06991eda49323a359", //EPAM Europe
+  "sg-0bb1be22258f16b65", //EPAM BY-RU
+  "sg-08c4c55b80217ba5f", //EPAM Europe
   "sg-0d1408d2c0f70e415", //Default
-  "sg-0d5e8f43bb0e35330", //EPAM Global
+  "sg-07d0672c82d1e4f4f", //EPAM Global
 ]
 
 // Variables for spot pool
@@ -113,5 +114,19 @@ infra_lb_listeners = [ // List of maps for using as listners foc Classic LB, Ger
     instance_protocol = "TCP"
     lb_port           = "30000"
     lb_protocol       = "TCP"
+  },
+  {
+    instance_port     = "32080"
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  },
+  {
+    instance_port      = "32080"
+    instance_protocol  = "http" 
+    lb_port            = 443
+    lb_protocol        = "https"
+    ssl_certificate_id = "arn:aws:acm:eu-central-1:093899590031:certificate/b9208ce6-e8b5-4b81-aab1-76be51d2789f"
   }
+
 ]
